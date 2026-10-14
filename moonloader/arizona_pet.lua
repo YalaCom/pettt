@@ -5,8 +5,27 @@ script_description('Бублик: виртуальный питомец, пам�
 
 -- Source and ImGui strings are UTF-8. SA-MP chat is encoded separately.
 local ok,imgui=pcall(require,'mimgui')
-if not ok then error('ARIZONA PET: install mimgui 1.7.1 (see README). '..tostring(imgui)) end
-imgui.SetDpiScalingMode(0) -- this interface scales explicitly to game resolution
+if not ok then
+    -- Keep /pet available as an error reporter instead of silently disappearing.
+    -- No game state is changed when mimgui is missing or broken.
+    local dependencyError=tostring(imgui)
+    print('[ARIZONA PET] Failed to load mimgui: '..dependencyError)
+    function main()
+        if type(isSampAvailable)~='function' then
+            print('[ARIZONA PET] SA-MP is unavailable.')
+            return
+        end
+        while not isSampAvailable() do wait(200) end
+        sampRegisterChatCommand('pet',function()
+            sampAddChatMessage('[ARIZONA PET] mimgui error - open moonloader.log',-1)
+        end)
+        while true do wait(1000) end
+    end
+    return
+end
+if type(imgui.SetDpiScalingMode)=='function' then
+    imgui.SetDpiScalingMode(0) -- UI scales explicitly to the game resolution
+end
 local encok,encoding=pcall(require,'encoding')
 if encok then encoding.default='CP1251' end
 local State=require 'arizona_pet.core.state'
