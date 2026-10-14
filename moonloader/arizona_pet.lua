@@ -60,11 +60,11 @@ imgui.OnInitialize(function()
     else chat('Отсутствует русский шрифт: '..font) end
     initialized=true
 end)
-mainFrame=imgui.OnFrame(function() return running and initialized and ui.open end,
+mainFrame=imgui.OnFrame(function() return running and ui ~= nil and ui.open end,
     function() textures:trim(); cursorState() end,
     function() ui:update(math.min(.25,imgui.GetIO().DeltaTime)); ui:main(); cursorState() end)
 mainFrame.LockPlayer=true
-overlay=imgui.OnFrame(function() return running and initialized and model.s.settings.mini and not ui.open end,
+overlay=imgui.OnFrame(function() return running and ui ~= nil and model ~= nil and model.s.settings.mini and not ui.open end,
     function() textures:trim(); cursorState() end,
     function() ui:update(math.min(.25,imgui.GetIO().DeltaTime)); ui:mini(); cursorState() end)
 overlay.HideCursor=true
