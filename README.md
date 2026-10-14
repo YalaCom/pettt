@@ -13,7 +13,7 @@
 Не создавайте лишнюю вложенную папку `moonloader/moonloader/`. Если после установки команда `/pet` неизвестна, проверьте наличие `arizona_pet.lua` по указанному пути и пришлите файл `bin/arizona/moonloader/moonloader.log`. Если есть ошибка загрузки `mimgui` или модулей питомца, исправленная версия сообщит об этом через `/pet`, когда сам Lua-файл находится в нужном месте.
 
 1. Нужны MoonLoader **0.26**, SA-MP и **mimgui 1.7.1** с нативными DLL, соответствующими клиенту. Ссылки: [MoonLoader](https://www.blast.hk/threads/13305/), [mimgui](https://github.com/THE-FYP/mimgui). Установка старого `imgui` вместо `mimgui` не подходит. `encoding` обычно входит в комплект MoonLoader.
-2. Распакуйте `ARIZONA-PET-0.1.0.zip` в папку GTA, объединив папку `moonloader` с существующей. Или скопируйте содержимое `moonloader/` из репозитория. Файл запуска: `moonloader/arizona_pet.lua`; модули: `moonloader/lib/arizona_pet/`; изображения, шрифт и звуки: `moonloader/resource/arizona_pet/`.
+2. Для версии с исправлением запуска **используйте Code → Download ZIP выбранной ветки**, а не старый архив в `dist/`. Из скачанного репозитория скопируйте содержимое папки `moonloader/` в существующую папку `moonloader/` игры. Файл запуска: `moonloader/arizona_pet.lua`; модули: `moonloader/lib/arizona_pet/`; изображения, шрифт и звуки: `moonloader/resource/arizona_pet/`.
 3. Запустите GTA и зайдите в SA-MP. Введите `/pet`. Не ставьте две копии скрипта одновременно.
 4. Пройдите [проверку в клиенте](docs/GTA-CHECKLIST.md). Ошибки и отсутствующие файлы выводятся в `moonloader.log` и, когда возможно, в чат.
 
