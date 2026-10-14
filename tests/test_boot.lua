@@ -26,10 +26,12 @@ return {moonloader_lifecycle_with_mocks=function()
     print=function(text) logs[#logs+1]=text end
     wait=function(ms) ticks=ticks+ms; coroutine.yield() end
     dofile('moonloader/arizona_pet.lua')
-    for _,fn in ipairs(initialize) do fn() end
+    -- The real mimgui renderer initializes ONLY after an OnFrame condition is true.
+    -- Do not trigger OnInitialize before activation: it hides initialization deadlocks.
     local co=coroutine.create(main); local worked,err=coroutine.resume(co); assert(worked,err)
     for _,cmd in ipairs({'pet','petmini','petedit','pethide','petsave'}) do assert(commands[cmd]) end
-    commands.pet(); assert(subscriptions[1].Condition())
+    commands.pet(); assert(subscriptions[1].Condition(), 'UI cannot activate renderer before OnInitialize')
+    for _,fn in ipairs(initialize) do fn() end
     local function render()
         for _,sub in ipairs(subscriptions) do if sub.active and sub.Condition() then if sub.before then sub.before() end; sub.draw() end end
     end
