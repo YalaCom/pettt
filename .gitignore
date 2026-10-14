@@ -1,0 +1,6 @@
+__pycache__/
+.venv/
+dist/
+test-output/
+moonloader/config/
+*.log

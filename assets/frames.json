@@ -1,0 +1,10 @@
+{
+  "canvas": [512, 512],
+  "anchor": [256, 480],
+  "scale": 0.39,
+  "frames": [
+    {"id": "open", "source": "assets/source/bublik-open.png", "anchor": [614, 1173]},
+    {"id": "closed", "source": "assets/source/bublik-closed.png", "anchor": [614, 1173]},
+    {"id": "offended", "source": "assets/source/bublik-offended.png", "anchor": [614, 1173]}
+  ]
+}
