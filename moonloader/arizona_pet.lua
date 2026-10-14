@@ -28,16 +28,36 @@ if type(imgui.SetDpiScalingMode)=='function' then
 end
 local encok,encoding=pcall(require,'encoding')
 if encok then encoding.default='CP1251' end
-local State=require 'arizona_pet.core.state'
-local Storage=require 'arizona_pet.core.storage'
-local Model=require 'arizona_pet.pet.model'
-local Player=require 'arizona_pet.animation.player'
-local Textures=require 'arizona_pet.animation.textures'
-local View=require 'arizona_pet.ui.view'
-local Integration=require 'arizona_pet.integration.game'
-local Sound=require 'arizona_pet.core.sound'
-local C=require 'arizona_pet.core.config'
-local U=require 'arizona_pet.core.util'
+local State, Storage, Model, Player, Textures, View, Integration, Sound, C, U
+local modulesOk,modulesError=pcall(function()
+    State=require 'arizona_pet.core.state'
+    Storage=require 'arizona_pet.core.storage'
+    Model=require 'arizona_pet.pet.model'
+    Player=require 'arizona_pet.animation.player'
+    Textures=require 'arizona_pet.animation.textures'
+    View=require 'arizona_pet.ui.view'
+    Integration=require 'arizona_pet.integration.game'
+    Sound=require 'arizona_pet.core.sound'
+    C=require 'arizona_pet.core.config'
+    U=require 'arizona_pet.core.util'
+end)
+if not modulesOk then
+    -- Missing files in moonloader/lib must not erase the /pet diagnostic command.
+    local reason=tostring(modulesError)
+    print('[ARIZONA PET] Failed to load module: '..reason)
+    function main()
+        if type(isSampAvailable)~='function' then
+            print('[ARIZONA PET] SA-MP is unavailable.')
+            return
+        end
+        while not isSampAvailable() do wait(200) end
+        sampRegisterChatCommand('pet',function()
+            sampAddChatMessage('[ARIZONA PET] Lua module error - open moonloader.log',-1)
+        end)
+        while true do wait(1000) end
+    end
+    return
+end
 local root=getWorkingDirectory()..'/resource/arizona_pet'
 local configRoot=getWorkingDirectory()..'/config/arizona_pet'
 local model,storage,ui,integration,player,textures,sound
